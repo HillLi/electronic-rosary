@@ -1,0 +1,47 @@
+<!--pages/index/index.wxml-->
+<view
+  class="container"
+  bindtouchstart="onTouchStart"
+  bindtouchmove="onTouchMove"
+  bindtouchend="onTouchEnd"
+>
+  <!-- 功德计数器 -->
+  <view class="merit-container">
+    <view class="merit-label">功德</view>
+    <view class="merit-value {{meritAnimating ? 'bounce' : ''}}">{{merit}}</view>
+  </view>
+
+  <!-- 念珠区域（包含珠子和飘字） -->
+  <view class="beads-area">
+    <view class="beads-container">
+      <view
+        class="beads-wrapper {{useTransition ? 'with-transition' : ''}}"
+        style="transform: translateY({{translateY}}px);"
+      >
+        <view
+          wx:for="{{visibleBeads}}"
+          wx:key="id"
+          class="bead {{item.isActive ? 'active' : ''}}"
+        >
+          <view class="bead-inner"></view>
+          <view class="bead-highlight" wx:if="{{item.isActive}}"></view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 功德+1 飘字动画 -->
+    <view
+      wx:for="{{meritPopups}}"
+      wx:key="id"
+      class="merit-popup"
+    >
+      功德+1
+    </view>
+  </view>
+
+  <!-- 设置按钮 -->
+  <view class="settings-btn" catchtap="goToSettings">
+    <text class="settings-icon">⚙️</text>
+    <text class="settings-text">设置</text>
+  </view>
+</view>

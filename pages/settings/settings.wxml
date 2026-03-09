@@ -1,0 +1,30 @@
+<!--pages/settings/settings.wxml-->
+<view class="settings-container">
+  <!-- 音效开关 -->
+  <view class="settings-section">
+    <view class="section-title">音效设置</view>
+    <view class="option-group">
+      <view class="option-item" bindtap="toggleSound">
+        <view class="option-content">
+          <view class="option-label">滑动音效</view>
+          <view class="option-desc">滑动念珠时播放声音</view>
+        </view>
+        <switch
+          checked="{{soundEnabled}}"
+          color="#8B4513"
+          catchtap="toggleSound"
+        />
+      </view>
+    </view>
+  </view>
+
+  <!-- 使用说明 -->
+  <view class="settings-section">
+    <view class="section-title">使用说明</view>
+    <view class="tips">
+      <view class="tip-item">• 向上滑动：珠子向上滚动，功德+1</view>
+      <view class="tip-item">• 向下滑动：珠子向下滚动，功德+1</view>
+      <view class="tip-item">• 功德数会自动保存</view>
+    </view>
+  </view>
+</view>

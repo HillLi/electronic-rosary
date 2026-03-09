@@ -1,0 +1,15 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/settings/settings"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#8B4513",
+    "navigationBarTitleText": "电子念珠",
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#F5E6D3"
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}

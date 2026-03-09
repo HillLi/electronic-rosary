@@ -1,0 +1,289 @@
+/* pages/index/index.wxss */
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  height: 100vh;
+  background-color: #F5E6D3;
+  padding: 40rpx 0;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+/* 功德计数器 */
+.merit-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 60rpx;
+}
+
+.merit-label {
+  font-size: 32rpx;
+  color: #5D4037;
+  opacity: 0.8;
+}
+
+.merit-value {
+  font-size: 80rpx;
+  font-weight: bold;
+  color: #8B4513;
+  text-shadow: 2rpx 2rpx 4rpx rgba(0, 0, 0, 0.1);
+}
+
+/* 功德数字弹跳动画 */
+.merit-value.bounce {
+  animation: bounce 0.3s ease-out;
+}
+
+@keyframes bounce {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}
+
+/* 念珠区域 */
+.beads-area {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  position: relative;
+}
+
+.beads-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.beads-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* 默认无过渡，用于跟手拖动 */
+  transition: none;
+}
+
+/* 需要过渡动画时添加此类 */
+.beads-wrapper.with-transition {
+  transition: transform 0.3s ease-out;
+}
+
+/* 单颗珠子 - 深木纹质感 */
+.bead {
+  width: 100rpx;
+  height: 100rpx;
+  margin: 20rpx 0;
+  position: relative;
+  border-radius: 50%;
+  /* 深棕色底 + 纵向木纹 */
+  background:
+    /* 顶部高光 */
+    radial-gradient(ellipse 60% 40% at 35% 25%,
+      rgba(255, 255, 255, 0.25) 0%,
+      rgba(255, 255, 255, 0.1) 30%,
+      transparent 60%
+    ),
+    /* 纵向木纹线条 - 主纹理 */
+    repeating-linear-gradient(
+      90deg,
+      transparent 0rpx,
+      rgba(45, 25, 10, 0.4) 2rpx,
+      rgba(60, 35, 15, 0.3) 4rpx,
+      transparent 6rpx,
+      rgba(50, 28, 12, 0.35) 8rpx,
+      transparent 10rpx,
+      rgba(40, 22, 8, 0.3) 12rpx,
+      transparent 15rpx
+    ),
+    /* 纵向木纹线条 - 次纹理（错位） */
+    repeating-linear-gradient(
+      92deg,
+      transparent 3rpx,
+      rgba(35, 18, 5, 0.25) 5rpx,
+      transparent 8rpx,
+      rgba(55, 30, 12, 0.2) 11rpx,
+      transparent 14rpx
+    ),
+    /* 基础深棕色渐变 */
+    radial-gradient(circle at 40% 40%,
+      #5D3520 0%,
+      #4A2A18 40%,
+      #3D2210 70%,
+      #2F1A0C 100%
+    );
+  box-shadow:
+    /* 外阴影 */
+    5rpx 5rpx 15rpx rgba(0, 0, 0, 0.4),
+    -2rpx -2rpx 8rpx rgba(255, 255, 255, 0.05),
+    /* 内阴影增加立体感 */
+    inset 3rpx 3rpx 8rpx rgba(0, 0, 0, 0.3),
+    inset -2rpx -2rpx 6rpx rgba(255, 255, 255, 0.08);
+}
+
+/* 额外的木纹细节 */
+.bead::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 50%;
+  /* 细密的纵向纹理 */
+  background:
+    repeating-linear-gradient(
+      88deg,
+      transparent 0rpx,
+      rgba(30, 15, 5, 0.15) 1rpx,
+      transparent 2rpx,
+      rgba(45, 25, 10, 0.12) 3rpx,
+      transparent 4rpx
+    );
+}
+
+/* 珠子内部高光 - 柔和哑光效果 */
+.bead-inner {
+  position: absolute;
+  top: 10%;
+  left: 15%;
+  width: 40%;
+  height: 30%;
+  background:
+    radial-gradient(ellipse at 40% 40%,
+      rgba(255, 255, 255, 0.35) 0%,
+      rgba(255, 255, 255, 0.15) 40%,
+      transparent 70%
+    );
+  border-radius: 50%;
+  transform: rotate(-25deg);
+}
+
+/* 当前激活的珠子 - 更亮但仍保持木纹 */
+.bead.active {
+  transform: scale(1.18);
+  background:
+    /* 顶部高光增强 */
+    radial-gradient(ellipse 60% 40% at 35% 25%,
+      rgba(255, 255, 255, 0.35) 0%,
+      rgba(255, 255, 255, 0.15) 30%,
+      transparent 60%
+    ),
+    /* 纵向木纹 */
+    repeating-linear-gradient(
+      90deg,
+      transparent 0rpx,
+      rgba(60, 35, 15, 0.4) 2rpx,
+      rgba(80, 50, 25, 0.3) 4rpx,
+      transparent 6rpx,
+      rgba(70, 40, 18, 0.35) 8rpx,
+      transparent 10rpx,
+      rgba(55, 30, 12, 0.3) 12rpx,
+      transparent 15rpx
+    ),
+    repeating-linear-gradient(
+      92deg,
+      transparent 3rpx,
+      rgba(50, 28, 12, 0.25) 5rpx,
+      transparent 8rpx,
+      rgba(70, 40, 18, 0.2) 11rpx,
+      transparent 14rpx
+    ),
+    /* 基础色稍亮 */
+    radial-gradient(circle at 40% 40%,
+      #6D4530 0%,
+      #5A3A25 40%,
+      #4D3018 70%,
+      #3F2510 100%
+    );
+  box-shadow:
+    /* 暖色光晕 */
+    0 0 20rpx rgba(255, 180, 100, 0.35),
+    0 0 40rpx rgba(255, 160, 80, 0.2),
+    /* 立体阴影 */
+    5rpx 5rpx 15rpx rgba(0, 0, 0, 0.35),
+    inset 3rpx 3rpx 8rpx rgba(0, 0, 0, 0.25),
+    inset -2rpx -2rpx 6rpx rgba(255, 255, 255, 0.1);
+}
+
+/* 激活珠子的光晕动画 */
+.bead-highlight {
+  position: absolute;
+  top: -12rpx;
+  left: -12rpx;
+  right: -12rpx;
+  bottom: -12rpx;
+  border-radius: 50%;
+  border: 2rpx solid rgba(255, 180, 100, 0.5);
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.7;
+    border-color: rgba(255, 180, 100, 0.45);
+  }
+  50% {
+    transform: scale(1.08);
+    opacity: 0.35;
+    border-color: rgba(255, 160, 80, 0.25);
+  }
+}
+
+/* 设置按钮 */
+.settings-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20rpx 40rpx;
+  background-color: rgba(139, 69, 19, 0.1);
+  border-radius: 40rpx;
+  margin-bottom: 40rpx;
+}
+
+.settings-icon {
+  font-size: 36rpx;
+  margin-right: 10rpx;
+}
+
+.settings-text {
+  font-size: 28rpx;
+  color: #5D4037;
+}
+
+/* 功德+1 飘字动画 */
+.merit-popup {
+  position: absolute;
+  right: 40rpx;
+  top: 50%;
+  margin-top: -18rpx;
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #FFD700;
+  text-shadow: 0 0 10rpx rgba(255, 215, 0, 0.8);
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 9999;
+  animation: meritFloat 1s ease-out forwards;
+}
+
+@keyframes meritFloat {
+  0% {
+    opacity: 1;
+    transform: translateY(0) translateX(0) scale(1);
+  }
+  30% {
+    opacity: 1;
+    transform: translateY(-30rpx) translateX(8rpx) scale(1.1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-100rpx) translateX(20rpx) scale(0.8);
+  }
+}
