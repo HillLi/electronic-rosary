@@ -1,0 +1,28 @@
+{
+  "name": "electronic-rosary",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "jest",
+    "test:e2e": "jest --testMatch='**/*.e2e.test.js'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HillLi/electronic-rosary.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/HillLi/electronic-rosary/issues"
+  },
+  "homepage": "https://github.com/HillLi/electronic-rosary#readme",
+  "devDependencies": {
+    "jest": "^30.3.0",
+    "miniprogram-automator": "^0.12.1"
+  }
+}

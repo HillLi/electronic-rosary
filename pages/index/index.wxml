@@ -21,10 +21,12 @@
         <view
           wx:for="{{visibleBeads}}"
           wx:key="id"
-          class="bead {{item.isActive ? 'active' : ''}}"
+          class="bead-wrapper"
         >
-          <view class="bead-inner"></view>
-          <view class="bead-highlight" wx:if="{{item.isActive}}"></view>
+          <view class="bead {{item.isActive ? 'active' : ''}}">
+            <view class="bead-inner"></view>
+            <view class="bead-highlight" wx:if="{{item.isActive}}"></view>
+          </view>
         </view>
       </view>
     </view>

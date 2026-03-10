@@ -3,8 +3,8 @@ const app = getApp()
 
 // 每颗珠子的高度（包括间距）- 使用 px 单位
 const BEAD_SIZE = 100 / 2 // rpx 转 px（rpx / 2）
-const BEAD_MARGIN = 20 / 2
-const BEAD_HEIGHT = BEAD_SIZE + BEAD_MARGIN // 60px
+const BEAD_MARGIN = 25 / 2
+const BEAD_HEIGHT = BEAD_SIZE + BEAD_MARGIN // 62.5px
 
 // 实际渲染的珠子数量
 const RENDER_COUNT = 9

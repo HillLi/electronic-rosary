@@ -74,11 +74,20 @@
   transition: transform 0.3s ease-out;
 }
 
+/* 珠子包裹层 - 为放大预留空间 */
+.bead-wrapper {
+  width: 115rpx;
+  height: 115rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 5rpx 0;
+}
+
 /* 单颗珠子 - 深木纹质感 */
 .bead {
   width: 100rpx;
   height: 100rpx;
-  margin: 20rpx 0;
   position: relative;
   border-radius: 50%;
   /* 深棕色底 + 纵向木纹 */
@@ -166,7 +175,7 @@
 
 /* 当前激活的珠子 - 更亮但仍保持木纹 */
 .bead.active {
-  transform: scale(1.18);
+  transform: scale(1.15);
   background:
     /* 顶部高光增强 */
     radial-gradient(ellipse 60% 40% at 35% 25%,
@@ -260,9 +269,10 @@
 /* 功德+1 飘字动画 */
 .merit-popup {
   position: absolute;
-  right: 40rpx;
+  left: 50%;
   top: 50%;
   margin-top: -18rpx;
+  margin-left: -50rpx;
   font-size: 36rpx;
   font-weight: bold;
   color: #FFD700;
@@ -276,14 +286,18 @@
 @keyframes meritFloat {
   0% {
     opacity: 1;
-    transform: translateY(0) translateX(0) scale(1);
+    transform: translateY(60rpx) scale(0.8);
   }
-  30% {
+  20% {
     opacity: 1;
-    transform: translateY(-30rpx) translateX(8rpx) scale(1.1);
+    transform: translateY(0) scale(1.1);
+  }
+  80% {
+    opacity: 0.8;
+    transform: translateY(-80rpx) scale(1);
   }
   100% {
     opacity: 0;
-    transform: translateY(-100rpx) translateX(20rpx) scale(0.8);
+    transform: translateY(-120rpx) scale(0.8);
   }
 }
