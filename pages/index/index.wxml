@@ -1,10 +1,19 @@
-<!--pages/index/index.wxml-->
+<!--pages/index/index.wxml - 禅意檀香主题-->
 <view
   class="container"
   bindtouchstart="onTouchStart"
   bindtouchmove="onTouchMove"
   bindtouchend="onTouchEnd"
 >
+  <!-- 檀香烟雾粒子层 -->
+  <view class="incense-particles">
+    <view class="particle particle-1"></view>
+    <view class="particle particle-2"></view>
+    <view class="particle particle-3"></view>
+    <view class="particle particle-4"></view>
+    <view class="particle particle-5"></view>
+  </view>
+
   <!-- 功德计数器 -->
   <view class="merit-container">
     <view class="merit-label">功德</view>
@@ -43,7 +52,7 @@
 
   <!-- 设置按钮 -->
   <view class="settings-btn" catchtap="goToSettings">
-    <text class="settings-icon">⚙️</text>
+    <text class="settings-icon">☸</text>
     <text class="settings-text">设置</text>
   </view>
 </view>
