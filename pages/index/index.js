@@ -237,5 +237,23 @@ Page({
     wx.navigateTo({
       url: '/pages/settings/settings'
     })
+  },
+
+  // 分享给好友
+  onShareAppMessage() {
+    return {
+      title: '一起来积累功德吧！我已经积累了 ' + this.data.merit + ' 点功德',
+      path: '/pages/index/index',
+      imageUrl: '/assets/images/share-cover.png'
+    }
+  },
+
+  // 分享到朋友圈
+  onShareTimeline() {
+    return {
+      title: '电子念珠 - 随时随地积累功德',
+      query: '',
+      imageUrl: '/assets/images/share-cover.png'
+    }
   }
 })
