@@ -29,13 +29,16 @@
       >
         <view
           wx:for="{{visibleBeads}}"
+          wx:for-index="idx"
           wx:key="id"
           class="bead-wrapper"
         >
-          <view class="bead {{item.isActive ? 'active' : ''}}">
-            <view class="bead-inner"></view>
-            <view class="bead-highlight" wx:if="{{item.isActive}}"></view>
-          </view>
+          <image
+            class="bead {{item.isActive ? 'active' : ''}}"
+            src="/assets/images/bead.png"
+            mode="aspectFit"
+          />
+          <view class="bead-highlight" wx:if="{{item.isActive}}"></view>
         </view>
       </view>
     </view>
@@ -46,7 +49,7 @@
       wx:key="id"
       class="merit-popup"
     >
-      功德+1
+      功德+{{item.count}}
     </view>
   </view>
 

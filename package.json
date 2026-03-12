@@ -1,28 +1,39 @@
 {
   "name": "electronic-rosary",
   "version": "1.0.0",
-  "description": "",
+  "description": "禅意风格的电子念珠微信小程序",
   "main": "app.js",
   "directories": {
     "doc": "docs"
   },
   "scripts": {
     "test": "jest",
-    "test:e2e": "jest --testMatch='**/*.e2e.test.js'"
+    "test:e2e": "jest --testMatch='**/*.e2e.test.js'",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write \"**/*.{js,json,md}\"",
+    "format:check": "prettier --check \"**/*.{js,json,md}\""
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/HillLi/electronic-rosary.git"
   },
-  "keywords": [],
+  "keywords": [
+    "weixin",
+    "miniprogram",
+    "rosary",
+    "buddhism"
+  ],
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/HillLi/electronic-rosary/issues"
   },
   "homepage": "https://github.com/HillLi/electronic-rosary#readme",
   "devDependencies": {
+    "eslint": "^8.57.0",
     "jest": "^30.3.0",
-    "miniprogram-automator": "^0.12.1"
+    "miniprogram-automator": "^0.12.1",
+    "prettier": "^3.2.5"
   }
 }

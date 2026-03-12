@@ -10,9 +10,10 @@
 const automator = require('miniprogram-automator')
 
 // 微信开发者工具 CLI 路径（根据实际安装位置修改）
-const CLI_PATH = process.env.WX_CLI_PATH || 'C:/Program Files (x86)/Tencent/微信web开发者工具/cli.bat'
+const CLI_PATH =
+  process.env.WX_CLI_PATH || 'C:/Program Files (x86)/Tencent/微信web开发者工具/cli.bat'
 
-const PROJECT_PATH = 'd:/wrok/wkspace/wx-program/electronic-rosary'
+const PROJECT_PATH = process.env.PROJECT_PATH || 'd:/workspace/electronic-rosary/electronic-rosary'
 
 describe('电子念珠小程序 E2E 测试', () => {
   let miniProgram

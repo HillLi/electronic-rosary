@@ -109,6 +109,8 @@
   justify-content: center;
   overflow: hidden;
   position: relative;
+  /* 显示10颗珠子 */
+  height: 980rpx;
 }
 
 /* 珠子容器光影氛围 */
@@ -133,6 +135,8 @@
   flex-direction: column;
   align-items: center;
   transition: none;
+  /* 向上偏移一整颗珠子高度，完全隐藏顶部预览珠子 */
+  margin-top: -115rpx;
 }
 
 .beads-wrapper.with-transition {
@@ -142,162 +146,35 @@
 /* 珠子包裹层 - 为放大和光晕预留空间 */
 .bead-wrapper {
   width: 120rpx;
-  height: 120rpx;
+  height: 100rpx;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 8rpx 0;
+  margin: -2.5rpx 0;
   position: relative;
+  overflow: visible; /* 允许放大的珠子溢出 */
 }
 
 /* ========================================
-   单颗珠子 - 精致檀木质感
+   单颗珠子 - 图片样式
    ======================================== */
 .bead {
   width: 100rpx;
   height: 100rpx;
-  position: relative;
-  border-radius: 50%;
-  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-
-  /* 多层檀木质感 - 纵向木纹 */
-  background:
-    /* 顶部高光 - 柔和漫反射 */
-    radial-gradient(ellipse 50% 35% at 30% 22%,
-      rgba(255, 250, 240, 0.2) 0%,
-      rgba(255, 250, 240, 0.08) 40%,
-      transparent 70%
-    ),
-    /* 纵向主木纹 */
-    repeating-linear-gradient(
-      88deg,
-      transparent 0rpx,
-      rgba(35, 18, 8, 0.35) 1.5rpx,
-      rgba(50, 28, 14, 0.25) 3rpx,
-      transparent 5rpx,
-      rgba(40, 22, 10, 0.3) 7rpx,
-      transparent 9rpx,
-      rgba(45, 25, 12, 0.2) 12rpx,
-      transparent 15rpx
-    ),
-    /* 纵向次木纹 - 错位 */
-    repeating-linear-gradient(
-      92deg,
-      transparent 2rpx,
-      rgba(30, 15, 5, 0.2) 4rpx,
-      transparent 6rpx,
-      rgba(55, 30, 15, 0.15) 10rpx,
-      transparent 14rpx
-    ),
-    /* 基础檀木色渐变 */
-    radial-gradient(circle at 38% 35%,
-      #5D3D25 0%,
-      #4A2C17 35%,
-      #3A2010 65%,
-      #2A150A 100%
-    );
-
-  /* 立体阴影 */
-  box-shadow:
-    /* 环境光遮挡 */
-    0 8rpx 20rpx rgba(30, 15, 5, 0.25),
-    0 2rpx 6rpx rgba(30, 15, 5, 0.15),
-    /* 内部立体感 */
-    inset 4rpx 4rpx 10rpx rgba(0, 0, 0, 0.25),
-    inset -3rpx -3rpx 8rpx rgba(255, 250, 240, 0.08),
-    /* 边缘高光 */
-    inset 0 -2rpx 4rpx rgba(0, 0, 0, 0.2);
-}
-
-/* 细腻木纹层 */
-.bead::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  border-radius: 50%;
-  background:
-    repeating-linear-gradient(
-      86deg,
-      transparent 0rpx,
-      rgba(25, 12, 5, 0.12) 0.8rpx,
-      transparent 1.6rpx,
-      rgba(40, 22, 10, 0.1) 2.4rpx,
-      transparent 3.2rpx
-    );
-  pointer-events: none;
-}
-
-/* 珠子内部高光 - 哑光效果 */
-.bead-inner {
-  position: absolute;
-  top: 12%;
-  left: 18%;
-  width: 35%;
-  height: 25%;
-  background:
-    radial-gradient(ellipse at 45% 40%,
-      rgba(255, 252, 245, 0.3) 0%,
-      rgba(255, 252, 245, 0.1) 50%,
-      transparent 80%
-    );
-  border-radius: 50%;
-  transform: rotate(-30deg);
-  pointer-events: none;
+  /* 图片阴影 */
+  filter: drop-shadow(0 4rpx 8rpx rgba(30, 15, 5, 0.2));
+  /* 强制 GPU 加速，减少闪烁 */
+  will-change: transform, filter;
+  backface-visibility: hidden;
 }
 
 /* ========================================
-   激活状态 - 温润光晕
+   激活状态 - 放大 + 光晕
    ======================================== */
 .bead.active {
-  transform: scale(1.18);
-
-  /* 更亮的檀木色 */
-  background:
-    /* 强化高光 */
-    radial-gradient(ellipse 55% 40% at 30% 22%,
-      rgba(255, 252, 240, 0.3) 0%,
-      rgba(255, 252, 240, 0.12) 40%,
-      transparent 70%
-    ),
-    /* 木纹 - 略亮 */
-    repeating-linear-gradient(
-      88deg,
-      transparent 0rpx,
-      rgba(50, 28, 14, 0.35) 1.5rpx,
-      rgba(70, 42, 22, 0.28) 3rpx,
-      transparent 5rpx,
-      rgba(60, 35, 18, 0.3) 7rpx,
-      transparent 9rpx,
-      rgba(55, 32, 16, 0.22) 12rpx,
-      transparent 15rpx
-    ),
-    repeating-linear-gradient(
-      92deg,
-      transparent 2rpx,
-      rgba(45, 25, 12, 0.22) 4rpx,
-      transparent 6rpx,
-      rgba(65, 38, 20, 0.18) 10rpx,
-      transparent 14rpx
-    ),
-    /* 更亮的基色 */
-    radial-gradient(circle at 38% 35%,
-      #6D4D35 0%,
-      #5A3A28 35%,
-      #4A2A18 65%,
-      #3A1A0E 100%
-    );
-
-  box-shadow:
-    /* 暖色光晕 */
-    0 0 30rpx rgba(218, 165, 32, 0.25),
-    0 0 60rpx rgba(184, 134, 11, 0.12),
-    /* 立体阴影 */
-    0 10rpx 25rpx rgba(30, 15, 5, 0.2),
-    inset 4rpx 4rpx 10rpx rgba(0, 0, 0, 0.2),
-    inset -3rpx -3rpx 8rpx rgba(255, 250, 240, 0.1);
+  transform: scale(1.15) translateZ(0);
+  filter: drop-shadow(0 0 10rpx rgba(218, 165, 32, 0.3))
+    drop-shadow(0 6rpx 12rpx rgba(30, 15, 5, 0.15));
 }
 
 /* 激活光晕动画 - 更柔和 */

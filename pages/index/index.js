@@ -2,12 +2,12 @@
 const app = getApp()
 
 // 每颗珠子的高度（包括间距）- 使用 px 单位
-const BEAD_SIZE = 100 / 2 // rpx 转 px（rpx / 2）
-const BEAD_MARGIN = 25 / 2
-const BEAD_HEIGHT = BEAD_SIZE + BEAD_MARGIN // 62.5px
+// bead-wrapper height: 100rpx, margin: -2.5rpx 0，实际占用 95rpx
+// rpx 转 px：95 / 2 = 47.5px
+const BEAD_HEIGHT = 47.5
 
-// 实际渲染的珠子数量
-const RENDER_COUNT = 9
+// 可见珠子数量（10颗可见 + 1颗顶部预览 = 渲染11颗）
+const RENDER_COUNT = 10
 
 // 飘字动画持续时间
 const POPUP_DURATION = 1000
@@ -20,13 +20,14 @@ Page({
     meritAnimating: false,
     soundEnabled: true,
     useTransition: false,
-    meritPopups: []  // 飘字动画数组
+    meritPopups: [] // 飘字动画数组
   },
 
   audioContext: null,
   touchStartY: 0,
-  completedCount: 0,  // 已完成的珠子数量
-  popupId: 0,         // 飘字唯一ID
+  countedBeads: new Set(), // 已计算过功德的珠子ID集合
+  popupId: 0, // 飘字唯一ID
+  timeouts: [], // 存储所有 setTimeout ID
 
   onLoad() {
     this.loadMerit()
@@ -40,9 +41,28 @@ Page({
   },
 
   onUnload() {
+    // 清理所有定时器
+    this.timeouts.forEach(id => clearTimeout(id))
+    this.timeouts = []
+
+    // 清理音频上下文
     if (this.audioContext) {
       this.audioContext.destroy()
     }
+  },
+
+  // 封装 setTimeout，便于统一清理
+  addTimeout(callback, delay) {
+    const id = setTimeout(() => {
+      // 执行后从列表中移除
+      const index = this.timeouts.indexOf(id)
+      if (index > -1) {
+        this.timeouts.splice(index, 1)
+      }
+      callback()
+    }, delay)
+    this.timeouts.push(id)
+    return id
   },
 
   loadMerit() {
@@ -73,10 +93,11 @@ Page({
 
   initBeads() {
     const visibleBeads = []
-    for (let i = 0; i < RENDER_COUNT; i++) {
+    // 渲染10颗珠子：顶部1颗预览 + 9颗可见
+    for (let i = 0; i < RENDER_COUNT + 1; i++) {
       visibleBeads.push({
-        id: i,
-        isActive: i === 4
+        id: i - 5,
+        isActive: i === 5 // 第6颗珠子是中间激活位置
       })
     }
     this.setData({ visibleBeads })
@@ -97,74 +118,57 @@ Page({
   onTouchStart(e) {
     if (e.touches.length > 0) {
       this.touchStartY = e.touches[0].clientY
-      this.completedCount = 0
+      this.countedBeads = new Set() // 重置已计数的珠子
+      this.beadIndex = 0
+      this.lastBeadIndex = 0 // 记录上次的珠子索引
       this.setData({
         useTransition: false
       })
     }
   },
 
-  // 触摸移动 - 连续跟手动画
+  // 触摸移动 - 边界位移模式，珠子平滑跟随
   onTouchMove(e) {
     if (e.touches.length === 0) return
 
     const currentY = e.touches[0].clientY
     const totalDelta = currentY - this.touchStartY
 
-    // 计算当前位置（取余实现循环效果）
-    const remainder = totalDelta % BEAD_HEIGHT
+    // 使用取余限制位移范围，保持激活珠子在视野内
+    // 向下滑动(totalDelta > 0)时，translateY为正，珠子向下移动，顶部预览珠子进入视野
+    const boundedTranslateY = totalDelta % BEAD_HEIGHT
     this.setData({
-      translateY: remainder
+      translateY: boundedTranslateY
     })
 
-    // 计算已完成的珠子数量（取绝对值后向下取整）
-    const newCompletedCount = Math.floor(Math.abs(totalDelta) / BEAD_HEIGHT)
+    // 计算当前应该显示的珠子索引
+    const newBeadIndex = Math.floor(totalDelta / BEAD_HEIGHT)
 
-    // 如果完成数量增加，触发完成事件
-    if (newCompletedCount > this.completedCount) {
-      const diff = newCompletedCount - this.completedCount
-      for (let i = 0; i < diff; i++) {
-        this.onBeadComplete()
+    // 珠子切换时，检查是否需要计算功德
+    if (newBeadIndex !== this.lastBeadIndex) {
+      this.lastBeadIndex = newBeadIndex
+      this.updateBeads(newBeadIndex)
+
+      // 计算当前中间激活的珠子ID
+      const activeBeadId = newBeadIndex
+
+      // 只有当这颗珠子没被计算过时，才增加功德
+      if (!this.countedBeads.has(activeBeadId)) {
+        this.countedBeads.add(activeBeadId)
+        this.addMerit(1)
       }
-      this.completedCount = newCompletedCount
     }
   },
 
-  // 完成一颗珠子
-  onBeadComplete() {
-    // 播放音效
-    this.playClickSound()
-
-    // 功德+1
-    this.setData({
-      merit: this.data.merit + 1,
-      meritAnimating: true
-    })
-
-    this.saveMerit()
-
-    // 显示飘字动画
-    this.showMeritPopup()
-
-    // 更新珠子显示
-    this.beadIndex = (this.beadIndex || 0) + 1
-    this.updateBeads()
-
-    // 移除动画类
-    setTimeout(() => {
-      this.setData({ meritAnimating: false })
-    }, 300)
-  },
-
-  // 显示功德+1飘字
-  showMeritPopup() {
+  // 显示功德飘字
+  showMeritPopup(count = 1) {
     const popupId = this.popupId++
-    const popups = this.data.meritPopups.concat({ id: popupId })
+    const popups = this.data.meritPopups.concat({ id: popupId, count })
 
     this.setData({ meritPopups: popups })
 
     // 动画结束后移除
-    setTimeout(() => {
+    this.addTimeout(() => {
       this.removeMeritPopup(popupId)
     }, POPUP_DURATION)
   },
@@ -176,28 +180,56 @@ Page({
   },
 
   // 更新珠子显示
-  updateBeads() {
+  updateBeads(beadIndex = 0) {
     const visibleBeads = []
-    for (let i = 0; i < RENDER_COUNT; i++) {
+    // 渲染10颗珠子：顶部1颗预览 + 9颗可见
+    // 预览珠子在顶部上方，向下滑动时会显示
+    for (let i = 0; i < RENDER_COUNT + 1; i++) {
       visibleBeads.push({
-        id: this.beadIndex - 4 + i,
-        isActive: i === 4
+        id: beadIndex - 5 + i,
+        isActive: i === 5 // 第6颗珠子是中间激活位置
       })
     }
     this.setData({ visibleBeads })
   },
 
-  // 触摸结束
-  onTouchEnd(e) {
+  // 触摸结束 - 只做回弹动画
+  onTouchEnd() {
+    // 重置状态（为下次滑动准备）
+    this.lastBeadIndex = 0
+
     // 启用过渡动画，平滑回到基准位置
     this.setData({
       useTransition: true,
       translateY: 0
     })
 
-    // 动画结束后禁用过渡
-    setTimeout(() => {
+    // 动画结束后禁用过渡，并重置珠子显示
+    this.addTimeout(() => {
       this.setData({ useTransition: false })
+      this.initBeads() // 重置珠子到初始状态
+    }, 350)
+  },
+
+  // 增加功德
+  addMerit(count) {
+    // 播放音效
+    this.playClickSound()
+
+    // 功德增加
+    this.setData({
+      merit: this.data.merit + count,
+      meritAnimating: true
+    })
+
+    this.saveMerit()
+
+    // 显示飘字动画
+    this.showMeritPopup(count)
+
+    // 移除动画类
+    this.addTimeout(() => {
+      this.setData({ meritAnimating: false })
     }, 300)
   },
 

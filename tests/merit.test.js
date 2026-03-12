@@ -3,14 +3,14 @@
  */
 
 // 念珠高度配置（与 index.js 保持一致）
-const BEAD_SIZE = 100 / 2  // rpx 转 px
+const BEAD_SIZE = 100 / 2 // rpx 转 px
 const BEAD_MARGIN = 25 / 2
-const BEAD_HEIGHT = BEAD_SIZE + BEAD_MARGIN  // 62.5px
+const BEAD_HEIGHT = BEAD_SIZE + BEAD_MARGIN // 62.5px
 
 describe('功德计算逻辑', () => {
   describe('滑动距离计算', () => {
     it('滑动一颗珠子距离应计算为1次完成', () => {
-      const totalDelta = -63  // 向上滑动63px (超过 BEAD_HEIGHT 62.5px)
+      const totalDelta = -63 // 向上滑动63px (超过 BEAD_HEIGHT 62.5px)
       const completedCount = Math.floor(Math.abs(totalDelta) / BEAD_HEIGHT)
       expect(completedCount).toBe(1)
     })
@@ -34,7 +34,7 @@ describe('功德计算逻辑', () => {
     })
 
     it('向下滑动也应正确计算', () => {
-      const totalDelta = 63  // 向下滑动
+      const totalDelta = 63 // 向下滑动
       const completedCount = Math.floor(Math.abs(totalDelta) / BEAD_HEIGHT)
       expect(completedCount).toBe(1)
     })
