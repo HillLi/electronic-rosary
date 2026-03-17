@@ -33,12 +33,15 @@
           wx:key="id"
           class="bead-wrapper"
         >
-          <image
-            class="bead {{item.isActive ? 'active' : ''}}"
-            src="/assets/images/bead.png"
-            mode="aspectFit"
-          />
-          <view class="bead-highlight" wx:if="{{item.isActive}}"></view>
+          <!-- CSS绘制的珠子 -->
+          <view
+            class="bead {{item.isActive ? 'active' : ''}} bead-{{currentSkin.id}}"
+            style="{{item.isActive ? '--bead-primary: ' + currentSkin.colors.primary + '; --bead-secondary: ' + currentSkin.colors.secondary + '; --bead-highlight: ' + currentSkin.colors.highlight + '; --bead-shadow: ' + currentSkin.colors.shadow : ''}}"
+          >
+            <view class="bead-inner"></view>
+            <view class="bead-shine"></view>
+            <view class="bead-hole"></view>
+          </view>
         </view>
       </view>
     </view>
@@ -59,9 +62,42 @@
       <text class="share-icon">🙏</text>
       <text class="share-text">邀请好友</text>
     </button>
+    <view class="skin-btn" catchtap="openSkinPicker">
+      <text class="skin-icon">🎨</text>
+      <text class="skin-text">换肤</text>
+    </view>
     <view class="settings-btn" catchtap="goToSettings">
       <text class="settings-icon">☸</text>
       <text class="settings-text">设置</text>
+    </view>
+  </view>
+</view>
+
+<!-- 换肤弹窗 -->
+<view class="skin-picker-mask {{showSkinPicker ? 'show' : ''}}" catchtap="closeSkinPicker">
+  <view class="skin-picker" catchtap="">
+    <view class="skin-picker-header">
+      <text class="skin-picker-title">选择念珠材质</text>
+      <view class="skin-picker-close" catchtap="closeSkinPicker">×</view>
+    </view>
+    <view class="skin-picker-content">
+      <view
+        wx:for="{{beadSkins}}"
+        wx:key="id"
+        class="skin-option {{currentSkin.id === item.id ? 'selected' : ''}}"
+        data-skin-id="{{item.id}}"
+        bindtap="selectSkin"
+      >
+        <view class="skin-preview bead-{{item.id}}">
+          <view class="skin-preview-bead">
+            <view class="bead-inner"></view>
+            <view class="bead-shine"></view>
+            <view class="bead-hole"></view>
+          </view>
+        </view>
+        <text class="skin-name">{{item.name}}</text>
+        <view class="skin-check" wx:if="{{currentSkin.id === item.id}}">✓</view>
+      </view>
     </view>
   </view>
 </view>

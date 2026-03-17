@@ -156,16 +156,143 @@
 }
 
 /* ========================================
-   单颗珠子 - 图片样式
+   单颗珠子 - CSS绘制（支持多材质）
    ======================================== */
 .bead {
-  width: 100rpx;
-  height: 100rpx;
-  /* 图片阴影 */
-  filter: drop-shadow(0 4rpx 8rpx rgba(30, 15, 5, 0.2));
-  /* 强制 GPU 加速，减少闪烁 */
+  width: 90rpx;
+  height: 90rpx;
+  border-radius: 50%;
+  position: relative;
+  /* 默认檀木色 */
+  --bead-primary: #8B5A2B;
+  --bead-secondary: #A0522D;
+  --bead-highlight: #D2B48C;
+  --bead-shadow: #5D3A1A;
+  background: radial-gradient(circle at 30% 30%,
+    var(--bead-highlight) 0%,
+    var(--bead-secondary) 30%,
+    var(--bead-primary) 70%,
+    var(--bead-shadow) 100%
+  );
+  box-shadow:
+    inset 0 -4rpx 8rpx rgba(0, 0, 0, 0.3),
+    inset 0 4rpx 12rpx rgba(255, 255, 255, 0.15),
+    0 4rpx 12rpx rgba(0, 0, 0, 0.25),
+    0 2rpx 4rpx rgba(0, 0, 0, 0.15);
   will-change: transform, filter;
   backface-visibility: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* 珠子内部纹理 */
+.bead-inner {
+  position: absolute;
+  top: 15%;
+  left: 15%;
+  width: 70%;
+  height: 70%;
+  border-radius: 50%;
+  background: radial-gradient(circle at 40% 40%,
+    transparent 0%,
+    rgba(0, 0, 0, 0.05) 50%,
+    rgba(0, 0, 0, 0.1) 100%
+  );
+  opacity: 0.6;
+}
+
+/* 珠子高光 */
+.bead-shine {
+  position: absolute;
+  top: 12%;
+  left: 18%;
+  width: 35%;
+  height: 25%;
+  border-radius: 50%;
+  background: linear-gradient(180deg,
+    rgba(255, 255, 255, 0.5) 0%,
+    rgba(255, 255, 255, 0.1) 60%,
+    transparent 100%
+  );
+  transform: rotate(-30deg);
+}
+
+/* 珠子穿孔 */
+.bead-hole {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 12rpx;
+  height: 12rpx;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: radial-gradient(circle,
+    rgba(0, 0, 0, 0.4) 0%,
+    rgba(0, 0, 0, 0.2) 60%,
+    transparent 100%
+  );
+  box-shadow: inset 0 1rpx 2rpx rgba(0, 0, 0, 0.3);
+}
+
+/* ========================================
+   不同材质珠子样式
+   ======================================== */
+
+/* 檀木 */
+.bead-sandalwood {
+  --bead-primary: #8B5A2B;
+  --bead-secondary: #A0522D;
+  --bead-highlight: #D2B48C;
+  --bead-shadow: #5D3A1A;
+}
+
+/* 菩提 */
+.bead-bodhi {
+  --bead-primary: #C4A35A;
+  --bead-secondary: #D4B896;
+  --bead-highlight: #F5E6C8;
+  --bead-shadow: #8B7355;
+}
+
+/* 水晶 */
+.bead-crystal {
+  --bead-primary: #B8D4E3;
+  --bead-secondary: #E8F4F8;
+  --bead-highlight: #FFFFFF;
+  --bead-shadow: #7FB3D3;
+  box-shadow:
+    inset 0 -2rpx 6rpx rgba(127, 179, 211, 0.4),
+    inset 0 4rpx 16rpx rgba(255, 255, 255, 0.6),
+    0 4rpx 16rpx rgba(127, 179, 211, 0.3),
+    0 2rpx 8rpx rgba(0, 0, 0, 0.1);
+}
+
+.bead-crystal .bead-shine {
+  background: linear-gradient(180deg,
+    rgba(255, 255, 255, 0.8) 0%,
+    rgba(255, 255, 255, 0.3) 60%,
+    transparent 100%
+  );
+}
+
+/* 玛瑙 */
+.bead-agate {
+  --bead-primary: #8B3A3A;
+  --bead-secondary: #B85050;
+  --bead-highlight: #D4A5A5;
+  --bead-shadow: #5C2828;
+}
+
+/* 翡翠 */
+.bead-jade {
+  --bead-primary: #5B8A5B;
+  --bead-secondary: #7CB97C;
+  --bead-highlight: #A8D8A8;
+  --bead-shadow: #3D5C3D;
+  box-shadow:
+    inset 0 -3rpx 8rpx rgba(61, 92, 61, 0.4),
+    inset 0 4rpx 14rpx rgba(255, 255, 255, 0.25),
+    0 4rpx 14rpx rgba(61, 92, 61, 0.3),
+    0 2rpx 6rpx rgba(0, 0, 0, 0.2);
 }
 
 /* ========================================
@@ -437,4 +564,237 @@
     transform: translateY(-600rpx) translateX(-10rpx) scale(0.3);
     opacity: 0;
   }
+}
+
+/* ========================================
+   换肤按钮
+   ======================================== */
+.skin-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24rpx 48rpx;
+  background: linear-gradient(135deg,
+    rgba(139, 90, 43, 0.08) 0%,
+    rgba(139, 90, 43, 0.03) 100%
+  );
+  border-radius: 48rpx;
+  border: 1rpx solid rgba(139, 90, 43, 0.12);
+  position: relative;
+  overflow: hidden;
+}
+
+.skin-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 48rpx;
+  background: linear-gradient(180deg,
+    rgba(255, 255, 255, 0.18) 0%,
+    transparent 50%
+  );
+  pointer-events: none;
+}
+
+.skin-icon {
+  font-size: 32rpx;
+  margin-right: 12rpx;
+}
+
+.skin-text {
+  font-size: 26rpx;
+  letter-spacing: 4rpx;
+  color: var(--text-secondary, #5C3A21);
+  text-indent: 4rpx;
+}
+
+/* ========================================
+   换肤弹窗
+   ======================================== */
+.skin-picker-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.skin-picker-mask.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+.skin-picker {
+  width: 100%;
+  background: linear-gradient(180deg,
+    #FDF8F3 0%,
+    #F5EDE3 100%
+  );
+  border-radius: 32rpx 32rpx 0 0;
+  padding: 32rpx;
+  padding-bottom: calc(32rpx + env(safe-area-inset-bottom));
+  box-sizing: border-box;
+  transform: translateY(100%);
+  transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.skin-picker-mask.show .skin-picker {
+  transform: translateY(0);
+}
+
+.skin-picker-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 32rpx;
+  padding-bottom: 24rpx;
+  border-bottom: 1rpx solid rgba(139, 90, 43, 0.1);
+}
+
+.skin-picker-title {
+  font-size: 32rpx;
+  font-weight: 500;
+  color: var(--primary-dark, #3D2314);
+  letter-spacing: 2rpx;
+}
+
+.skin-picker-close {
+  width: 48rpx;
+  height: 48rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 40rpx;
+  color: var(--text-muted, #8B7355);
+  line-height: 1;
+}
+
+.skin-picker-content {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24rpx;
+  justify-content: flex-start;
+}
+
+.skin-option {
+  width: calc(33.33% - 16rpx);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 24rpx 16rpx;
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: 16rpx;
+  border: 2rpx solid transparent;
+  position: relative;
+  transition: all 0.25s ease;
+}
+
+.skin-option.selected {
+  border-color: var(--accent-gold, #B8860B);
+  background: rgba(184, 134, 11, 0.08);
+}
+
+.skin-preview {
+  width: 80rpx;
+  height: 80rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 12rpx;
+}
+
+.skin-preview-bead {
+  width: 70rpx;
+  height: 70rpx;
+  border-radius: 50%;
+  position: relative;
+}
+
+/* 弹窗内的珠子预览样式 */
+.skin-preview-bead {
+  box-shadow:
+    inset 0 -3rpx 6rpx rgba(0, 0, 0, 0.25),
+    inset 0 3rpx 10rpx rgba(255, 255, 255, 0.15),
+    0 3rpx 10rpx rgba(0, 0, 0, 0.2);
+}
+
+/* 檀木预览 */
+.skin-option .bead-sandalwood {
+  background: radial-gradient(circle at 30% 30%,
+    #D2B48C 0%, #A0522D 30%, #8B5A2B 70%, #5D3A1A 100%
+  );
+}
+
+/* 菩提预览 */
+.skin-option .bead-bodhi {
+  background: radial-gradient(circle at 30% 30%,
+    #F5E6C8 0%, #D4B896 30%, #C4A35A 70%, #8B7355 100%
+  );
+}
+
+/* 水晶预览 */
+.skin-option .bead-crystal {
+  background: radial-gradient(circle at 30% 30%,
+    #FFFFFF 0%, #E8F4F8 30%, #B8D4E3 70%, #7FB3D3 100%
+  );
+  box-shadow:
+    inset 0 -2rpx 5rpx rgba(127, 179, 211, 0.4),
+    inset 0 3rpx 12rpx rgba(255, 255, 255, 0.6),
+    0 3rpx 12rpx rgba(127, 179, 211, 0.3);
+}
+
+/* 玛瑙预览 */
+.skin-option .bead-agate {
+  background: radial-gradient(circle at 30% 30%,
+    #D4A5A5 0%, #B85050 30%, #8B3A3A 70%, #5C2828 100%
+  );
+}
+
+/* 翡翠预览 */
+.skin-option .bead-jade {
+  background: radial-gradient(circle at 30% 30%,
+    #A8D8A8 0%, #7CB97C 30%, #5B8A5B 70%, #3D5C3D 100%
+  );
+  box-shadow:
+    inset 0 -2rpx 6rpx rgba(61, 92, 61, 0.4),
+    inset 0 3rpx 12rpx rgba(255, 255, 255, 0.25),
+    0 3rpx 12rpx rgba(61, 92, 61, 0.3);
+}
+
+.skin-option .bead-inner,
+.skin-option .bead-shine,
+.skin-option .bead-hole {
+  transform: scale(0.7);
+}
+
+.skin-name {
+  font-size: 24rpx;
+  color: var(--text-secondary, #5C3A21);
+  letter-spacing: 2rpx;
+}
+
+.skin-check {
+  position: absolute;
+  top: 12rpx;
+  right: 12rpx;
+  width: 36rpx;
+  height: 36rpx;
+  background: var(--accent-gold, #B8860B);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20rpx;
+  color: #FFFFFF;
 }

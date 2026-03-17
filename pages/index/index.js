@@ -20,7 +20,11 @@ Page({
     meritAnimating: false,
     soundEnabled: true,
     useTransition: false,
-    meritPopups: [] // 飘字动画数组
+    meritPopups: [], // 飘字动画数组
+    // 换肤相关
+    showSkinPicker: false,
+    beadSkins: [],
+    currentSkin: null
   },
 
   audioContext: null,
@@ -38,6 +42,7 @@ Page({
 
   onShow() {
     this.loadSettings()
+    this.loadSkinData()
   },
 
   onUnload() {
@@ -89,6 +94,38 @@ Page({
     this.setData({
       soundEnabled: settings.soundEnabled !== false
     })
+  },
+
+  // 加载皮肤数据
+  loadSkinData() {
+    const currentSkin = app.getCurrentSkin()
+    this.setData({
+      beadSkins: app.beadSkins,
+      currentSkin: currentSkin
+    })
+  },
+
+  // 打开换肤弹窗
+  openSkinPicker() {
+    this.setData({ showSkinPicker: true })
+  },
+
+  // 关闭换肤弹窗
+  closeSkinPicker() {
+    this.setData({ showSkinPicker: false })
+  },
+
+  // 切换皮肤
+  selectSkin(e) {
+    const skinId = e.currentTarget.dataset.skinId
+    const skin = app.beadSkins.find(s => s.id === skinId)
+    if (skin) {
+      app.saveSettings({ beadSkin: skinId })
+      this.setData({
+        currentSkin: skin,
+        showSkinPicker: false
+      })
+    }
   },
 
   initBeads() {
