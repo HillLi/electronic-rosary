@@ -2,9 +2,9 @@
 const app = getApp()
 
 // 每颗珠子的高度（包括间距）- 使用 px 单位
-// bead-wrapper height: 100rpx, margin: -2.5rpx 0，实际占用 95rpx
-// rpx 转 px：95 / 2 = 47.5px
-const BEAD_HEIGHT = 47.5
+// bead-wrapper height: 100rpx, margin: -3rpx 0，实际占用 97rpx
+// rpx 转 px：97 / 2 = 48.5px
+const BEAD_HEIGHT = 48.5
 
 // 可见珠子数量（10颗可见 + 1颗顶部预览 = 渲染11颗）
 const RENDER_COUNT = 10

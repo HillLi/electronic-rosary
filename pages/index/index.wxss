@@ -110,7 +110,7 @@
   overflow: hidden;
   position: relative;
   /* 显示10颗珠子 */
-  height: 980rpx;
+  height: 970rpx;
 }
 
 /* 珠子容器光影氛围 */
@@ -136,7 +136,7 @@
   align-items: center;
   transition: none;
   /* 向上偏移一整颗珠子高度，完全隐藏顶部预览珠子 */
-  margin-top: -115rpx;
+  margin-top: -100rpx;
 }
 
 .beads-wrapper.with-transition {
@@ -150,7 +150,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: -2.5rpx 0;
+  margin: -3rpx 0;
   position: relative;
   overflow: visible; /* 允许放大的珠子溢出 */
 }
