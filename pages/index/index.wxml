@@ -40,7 +40,6 @@
           >
             <view class="bead-inner"></view>
             <view class="bead-shine"></view>
-            <view class="bead-hole"></view>
           </view>
         </view>
       </view>
@@ -92,7 +91,6 @@
           <view class="skin-preview-bead">
             <view class="bead-inner"></view>
             <view class="bead-shine"></view>
-            <view class="bead-hole"></view>
           </view>
         </view>
         <text class="skin-name">{{item.name}}</text>
