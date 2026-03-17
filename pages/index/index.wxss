@@ -150,7 +150,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: -3rpx 0;
+  margin: -6rpx 0;
   position: relative;
   overflow: visible; /* 允许放大的珠子溢出 */
 }
