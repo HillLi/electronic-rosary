@@ -1,11 +1,31 @@
 {
-  "pages": ["pages/index/index", "pages/settings/settings"],
+  "pages": ["pages/index/index", "pages/woodfish/woodfish", "pages/settings/settings"],
   "window": {
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#8B4513",
     "navigationBarTitleText": "电子念珠",
     "navigationBarTextStyle": "white",
     "backgroundColor": "#F5E6D3"
+  },
+  "tabBar": {
+    "color": "#8B7355",
+    "selectedColor": "#8B4513",
+    "backgroundColor": "#F5E6D3",
+    "borderStyle": "white",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "念珠",
+        "iconPath": "assets/images/tabBar/rosary.png",
+        "selectedIconPath": "assets/images/tabBar/rosary-active.png"
+      },
+      {
+        "pagePath": "pages/woodfish/woodfish",
+        "text": "木鱼",
+        "iconPath": "assets/images/tabBar/woodfish.png",
+        "selectedIconPath": "assets/images/tabBar/woodfish-active.png"
+      }
+    ]
   },
   "style": "v2",
   "sitemapLocation": "sitemap.json",

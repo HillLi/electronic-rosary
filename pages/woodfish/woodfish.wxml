@@ -1,0 +1,45 @@
+<!--pages/woodfish/woodfish.wxml - 禅意檀香主题-->
+<view class="container">
+  <!-- 檀香烟雾粒子层 -->
+  <view class="incense-particles">
+    <view class="particle particle-1"></view>
+    <view class="particle particle-2"></view>
+    <view class="particle particle-3"></view>
+    <view class="particle particle-4"></view>
+    <view class="particle particle-5"></view>
+  </view>
+
+  <!-- 功德计数器 -->
+  <view class="merit-container">
+    <view class="merit-label">功德</view>
+    <view class="merit-value {{meritAnimating ? 'bounce' : ''}}">{{merit}}</view>
+  </view>
+
+  <!-- 木鱼区域（包含木鱼和飘字） -->
+  <view class="woodfish-area">
+    <view class="woodfish-container" bindtap="onTapWoodfish">
+      <image
+        class="woodfish-img"
+        src="/assets/images/woodfish.png"
+        mode="aspectFit"
+      />
+    </view>
+
+    <!-- 功德+1 飘字动画 -->
+    <view
+      wx:for="{{meritPopups}}"
+      wx:key="id"
+      class="merit-popup"
+    >
+      功德+{{item.count}}
+    </view>
+  </view>
+
+  <!-- 底部分享按钮 -->
+  <view class="bottom-btns">
+    <button class="share-btn" open-type="share">
+      <text class="share-icon">🙏</text>
+      <text class="share-text">邀请好友</text>
+    </button>
+  </view>
+</view>
