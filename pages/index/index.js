@@ -58,15 +58,19 @@ Page({
 
   // 封装 setTimeout，便于统一清理
   addTimeout(callback, delay) {
+    const self = this
     const id = setTimeout(() => {
-      // 执行后从列表中移除
-      const index = this.timeouts.indexOf(id)
-      if (index > -1) {
-        this.timeouts.splice(index, 1)
+      if (self.timeouts) {
+        const index = self.timeouts.indexOf(id)
+        if (index > -1) {
+          self.timeouts.splice(index, 1)
+        }
       }
       callback()
     }, delay)
-    this.timeouts.push(id)
+    if (this.timeouts) {
+      this.timeouts.push(id)
+    }
     return id
   },
 
@@ -273,6 +277,27 @@ Page({
   goToSettings() {
     wx.navigateTo({
       url: '/pages/settings/settings'
+    })
+  },
+
+  // 重置功德
+  resetMerit() {
+    wx.showModal({
+      title: '重置功德',
+      content: '确定要将功德归零吗？',
+      confirmText: '确定',
+      confirmColor: '#8B4513',
+      success: (res) => {
+        if (res.confirm) {
+          this.setData({ merit: 0 })
+          this.saveMerit()
+          wx.showToast({
+            title: '已重置',
+            icon: 'success',
+            duration: 1500
+          })
+        }
+      }
     })
   },
 

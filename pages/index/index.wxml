@@ -67,6 +67,12 @@
       <text class="side-btn-label">换肤</text>
     </view>
     <view class="side-btn-item">
+      <view class="side-btn reset-btn" catchtap="resetMerit">
+        <text class="side-btn-icon">♻︎</text>
+      </view>
+      <text class="side-btn-label">重置</text>
+    </view>
+    <view class="side-btn-item">
       <view class="side-btn settings-btn" catchtap="goToSettings">
         <text class="side-btn-icon">☸</text>
       </view>
