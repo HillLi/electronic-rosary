@@ -46,6 +46,9 @@
 
   <!-- 右侧按钮 -->
   <view class="side-btns">
+    <view class="side-btn auto-btn {{autoKnock ? 'active' : ''}}" catchtap="toggleAutoKnock">
+      <text class="side-btn-icon">{{autoKnock ? '⏸' : '▶'}}</text>
+    </view>
     <view class="side-btn settings-btn" catchtap="goToSettings">
       <text class="side-btn-icon">☸</text>
     </view>

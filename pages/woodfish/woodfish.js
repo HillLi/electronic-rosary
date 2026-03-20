@@ -8,12 +8,14 @@ Page({
     soundEnabled: true,
     isKnocking: false,
     showRipple: false,
-    meritPopups: []
+    meritPopups: [],
+    autoKnock: false
   },
 
   audioContext: null,
   popupId: 0,
   timeouts: [],
+  autoKnockTimer: null,
 
   onLoad() {
     this.loadMerit()
@@ -25,7 +27,12 @@ Page({
     this.loadSettings()
   },
 
+  onHide() {
+    this.stopAutoKnock()
+  },
+
   onUnload() {
+    this.stopAutoKnock()
     this.timeouts.forEach(id => clearTimeout(id))
     this.timeouts = []
     if (this.audioContext) {
@@ -117,6 +124,29 @@ Page({
 
   goToSettings() {
     wx.navigateTo({ url: '/pages/settings/settings' })
+  },
+
+  toggleAutoKnock() {
+    if (this.data.autoKnock) {
+      this.stopAutoKnock()
+    } else {
+      this.startAutoKnock()
+    }
+  },
+
+  startAutoKnock() {
+    this.setData({ autoKnock: true })
+    this.autoKnockTimer = setInterval(() => {
+      this.onTapWoodfish()
+    }, 500)
+  },
+
+  stopAutoKnock() {
+    if (this.autoKnockTimer) {
+      clearInterval(this.autoKnockTimer)
+      this.autoKnockTimer = null
+    }
+    this.setData({ autoKnock: false })
   },
 
   onShareAppMessage() {
