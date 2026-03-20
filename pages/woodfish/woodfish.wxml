@@ -26,6 +26,12 @@
       />
     </view>
 
+    <!-- 木槌 -->
+    <view class="mallet {{isKnocking ? 'swinging' : ''}}">
+      <view class="mallet-head"></view>
+      <view class="mallet-handle"></view>
+    </view>
+
     <!-- 波纹 -->
     <view wx:if="{{showRipple}}" class="ripple-container">
       <view class="ripple ripple-1"></view>
