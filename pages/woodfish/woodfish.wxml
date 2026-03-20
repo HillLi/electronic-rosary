@@ -1,5 +1,8 @@
 <!--pages/woodfish/woodfish.wxml-->
 <view class="container" bindtap="onTapWoodfish">
+  <!-- 背景图片 -->
+  <image class="background-image" src="/assets/images/background.png" mode="aspectFill" />
+
   <!-- 檀香烟雾粒子 -->
   <view class="incense-particles">
     <view class="particle particle-1"></view>
