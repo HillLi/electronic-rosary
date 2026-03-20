@@ -14,16 +14,16 @@
     "borderStyle": "white",
     "list": [
       {
-        "pagePath": "pages/index/index",
-        "text": "念珠",
-        "iconPath": "assets/images/tabBar/rosary.png",
-        "selectedIconPath": "assets/images/tabBar/rosary-active.png"
-      },
-      {
         "pagePath": "pages/woodfish/woodfish",
         "text": "木鱼",
         "iconPath": "assets/images/tabBar/woodfish.png",
         "selectedIconPath": "assets/images/tabBar/woodfish-active.png"
+      },
+      {
+        "pagePath": "pages/index/index",
+        "text": "念珠",
+        "iconPath": "assets/images/tabBar/rosary.png",
+        "selectedIconPath": "assets/images/tabBar/rosary-active.png"
       }
     ]
   },
