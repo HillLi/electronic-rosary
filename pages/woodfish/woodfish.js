@@ -97,7 +97,7 @@ Page({
         showRipple: false,
         meritAnimating: false
       })
-    }, 300)
+    }, 350)
   },
 
   showMeritPopup(count) {

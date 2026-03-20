@@ -1,5 +1,14 @@
 <!--pages/woodfish/woodfish.wxml-->
 <view class="container" bindtap="onTapWoodfish">
+  <!-- 檀香烟雾粒子 -->
+  <view class="incense-particles">
+    <view class="particle particle-1"></view>
+    <view class="particle particle-2"></view>
+    <view class="particle particle-3"></view>
+    <view class="particle particle-4"></view>
+    <view class="particle particle-5"></view>
+  </view>
+
   <!-- 功德计数器 -->
   <view class="merit-container">
     <view class="merit-label">功德</view>
@@ -8,26 +17,20 @@
 
   <!-- 木鱼区域 -->
   <view class="woodfish-area">
-    <!-- 木鱼主体 -->
-    <view class="muyu-body {{isKnocking ? 'knocking' : ''}}">
-      <view class="muyu-outer">
-        <view class="muyu-inner">
-          <view class="muyu-mouth"></view>
-        </view>
-        <view class="muyu-shine"></view>
-      </view>
-    </view>
-
-    <!-- 木槌 -->
-    <view class="mallet {{isKnocking ? 'swinging' : ''}}">
-      <view class="mallet-head"></view>
-      <view class="mallet-handle"></view>
+    <!-- 木鱼图片 -->
+    <view class="woodfish-image-wrapper {{isKnocking ? 'knocking' : ''}}">
+      <image
+        class="woodfish-image"
+        src="/assets/images/woodfish.png"
+        mode="aspectFit"
+      />
     </view>
 
     <!-- 波纹 -->
     <view wx:if="{{showRipple}}" class="ripple-container">
       <view class="ripple ripple-1"></view>
       <view class="ripple ripple-2"></view>
+      <view class="ripple ripple-3"></view>
     </view>
 
     <!-- 飘字 -->
