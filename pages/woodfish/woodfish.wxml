@@ -28,8 +28,7 @@
 
     <!-- 木槌 -->
     <view class="mallet {{isKnocking ? 'swinging' : ''}}">
-      <view class="mallet-head"></view>
-      <view class="mallet-handle"></view>
+      <image class="mallet-image" src="/assets/images/mallet.png" mode="aspectFit" />
     </view>
 
     <!-- 波纹 -->
