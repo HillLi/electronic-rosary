@@ -42,34 +42,39 @@
 }
 
 /* ========================================
-   功德计数器 - 优雅排版
+   功德计数器 - 醒目样式
    ======================================== */
 .merit-container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: 80rpx;
+  padding-top: 40rpx;
   position: relative;
   z-index: 10;
 }
 
 .merit-label {
-  font-size: 28rpx;
-  letter-spacing: 16rpx;
-  color: var(--text-muted, #8B7355);
-  margin-bottom: 8rpx;
-  text-indent: 16rpx;
+  font-size: 40rpx;
+  font-weight: 700;
+  letter-spacing: 20rpx;
+  color: rgba(255, 240, 220, 0.85);
+  margin-bottom: 12rpx;
+  text-indent: 20rpx;
+  text-shadow: 0 2rpx 8rpx rgba(60, 35, 20, 0.5);
 }
 
 .merit-value {
-  font-size: 96rpx;
-  font-weight: 300;
-  color: var(--primary-dark, #3D2314);
+  font-size: 60rpx;
+  font-weight: 700;
+  color: #FFD700;
   text-shadow:
-    0 2rpx 4rpx rgba(60, 35, 20, 0.1),
-    0 4rpx 12rpx rgba(60, 35, 20, 0.05);
+    0 0 10rpx rgba(255, 215, 0, 0.8),
+    0 0 30rpx rgba(255, 180, 0, 0.5),
+    0 0 50rpx rgba(255, 140, 0, 0.3),
+    0 4rpx 8rpx rgba(60, 35, 20, 0.4);
   line-height: 1.2;
   position: relative;
+  -webkit-text-stroke: 1rpx rgba(180, 120, 0, 0.3);
 }
 
 /* 功德数字下方装饰线 */
@@ -79,14 +84,14 @@
   bottom: -16rpx;
   left: 50%;
   transform: translateX(-50%);
-  width: 60rpx;
-  height: 2rpx;
+  width: 80rpx;
+  height: 3rpx;
   background: linear-gradient(90deg,
     transparent 0%,
-    var(--accent-gold, #B8860B) 50%,
+    rgba(255, 215, 0, 0.8) 20%,
     transparent 100%
   );
-  opacity: 0.4;
+  box-shadow: 0 0 10rpx rgba(255, 200, 100, 0.5);
 }
 
 /* 功德数字呼吸动画 */
@@ -434,8 +439,9 @@
 .side-btn-label {
   font-size: 30rpx;
   font-weight: 600;
-  color: #000;
+  color: #FFF5E6;
   letter-spacing: 2rpx;
+  text-shadow: 0 1rpx 4rpx rgba(60, 35, 20, 0.5);
 }
 
 .side-btn::before {
