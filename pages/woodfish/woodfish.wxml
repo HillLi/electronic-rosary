@@ -49,11 +49,17 @@
 
   <!-- 右侧按钮 -->
   <view class="side-btns">
-    <view class="side-btn auto-btn {{autoKnock ? 'active' : ''}}" catchtap="toggleAutoKnock">
-      <text class="side-btn-icon">{{autoKnock ? '⏸' : '▶'}}</text>
+    <view class="side-btn-item">
+      <view class="side-btn auto-btn {{autoKnock ? 'active' : ''}}" catchtap="toggleAutoKnock">
+        <text class="side-btn-icon">{{autoKnock ? '⏸' : '▶'}}</text>
+      </view>
+      <text class="side-btn-label">自动</text>
     </view>
-    <view class="side-btn settings-btn" catchtap="goToSettings">
-      <text class="side-btn-icon">☸</text>
+    <view class="side-btn-item">
+      <view class="side-btn settings-btn" catchtap="goToSettings">
+        <text class="side-btn-icon">☸</text>
+      </view>
+      <text class="side-btn-label">设置</text>
     </view>
   </view>
 
