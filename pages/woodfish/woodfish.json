@@ -1,4 +1,5 @@
 {
   "usingComponents": {},
-  "navigationBarTitleText": "木鱼"
+  "navigationStyle": "custom",
+  "disableScroll": true
 }
