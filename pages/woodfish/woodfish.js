@@ -12,7 +12,7 @@ Page({
     autoKnock: false
   },
 
-  audioContext: null,
+  audioSrc: null,
   popupId: 0,
   timeouts: [],
   autoKnockTimer: null,
@@ -35,9 +35,6 @@ Page({
     this.stopAutoKnock()
     this.timeouts.forEach(id => clearTimeout(id))
     this.timeouts = []
-    if (this.audioContext) {
-      this.audioContext.destroy()
-    }
   },
 
   addTimeout(callback, delay) {
@@ -78,20 +75,27 @@ Page({
   },
 
   initAudio() {
-    this.audioContext = wx.createInnerAudioContext()
-    this.audioContext.src = '/assets/sounds/woodfish.mp3'
+    // 音频预加载路径
+    this.audioSrc = '/assets/sounds/woodfish.mp3'
   },
 
   playClickSound() {
-    if (!this.data.soundEnabled || !this.audioContext) return
-    this.audioContext.stop()
-    this.audioContext.play()
+    if (!this.data.soundEnabled) return
+    const audio = wx.createInnerAudioContext()
+    audio.src = this.audioSrc
+    audio.onEnded(() => audio.destroy())
+    audio.onError(() => audio.destroy())
+    audio.play()
   },
 
   onTapWoodfish() {
-    if (this.data.isKnocking) return
-
     this.playClickSound()
+
+    // 先重置动画状态，再立即设为激活，确保连续敲击时动画能重新触发
+    this.setData({
+      isKnocking: false,
+      showRipple: false
+    })
 
     this.setData({
       isKnocking: true,
