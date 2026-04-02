@@ -16,22 +16,18 @@ Page({
   data: {
     merit: 0,
     visibleBeads: [],
-    translateY: 0,
     meritAnimating: false,
     soundEnabled: true,
-    useTransition: false,
-    meritPopups: [], // 飘字动画数组
-    // 换肤相关
+    meritPopups: [],
     showSkinPicker: false,
     beadSkins: [],
     currentSkin: null
   },
 
   audioContext: null,
-  touchStartY: 0,
-  countedBeads: new Set(), // 已计算过功德的珠子ID集合
-  popupId: 0, // 飘字唯一ID
-  timeouts: [], // 存储所有 setTimeout ID
+  countedBeads: new Set(),
+  popupId: 0,
+  timeouts: [],
 
   onLoad() {
     this.loadMerit()
@@ -155,50 +151,27 @@ Page({
     this.audioContext.play()
   },
 
-  // 触摸开始
-  onTouchStart(e) {
-    if (e.touches.length > 0) {
-      this.touchStartY = e.touches[0].clientY
-      this.countedBeads = new Set() // 重置已计数的珠子
-      this.beadIndex = 0
-      this.lastBeadIndex = 0 // 记录上次的珠子索引
-      this.setData({
-        useTransition: false
-      })
+  // WXS回调：触摸开始时重置状态
+  onTouchStartReset() {
+    this.countedBeads = new Set()
+  },
+
+  // WXS回调：珠子切换
+  onBeadChange(e) {
+    const beadIndex = e.beadIndex
+    this.updateBeads(beadIndex)
+
+    if (!this.countedBeads.has(beadIndex)) {
+      this.countedBeads.add(beadIndex)
+      this.addMerit(1)
     }
   },
 
-  // 触摸移动 - 边界位移模式，珠子平滑跟随
-  onTouchMove(e) {
-    if (e.touches.length === 0) return
-
-    const currentY = e.touches[0].clientY
-    const totalDelta = currentY - this.touchStartY
-
-    // 使用取余限制位移范围，保持激活珠子在视野内
-    // 向下滑动(totalDelta > 0)时，translateY为正，珠子向下移动，顶部预览珠子进入视野
-    const boundedTranslateY = totalDelta % BEAD_HEIGHT
-    this.setData({
-      translateY: boundedTranslateY
-    })
-
-    // 计算当前应该显示的珠子索引
-    const newBeadIndex = Math.floor(totalDelta / BEAD_HEIGHT)
-
-    // 珠子切换时，检查是否需要计算功德
-    if (newBeadIndex !== this.lastBeadIndex) {
-      this.lastBeadIndex = newBeadIndex
-      this.updateBeads(newBeadIndex)
-
-      // 计算当前中间激活的珠子ID
-      const activeBeadId = newBeadIndex
-
-      // 只有当这颗珠子没被计算过时，才增加功德
-      if (!this.countedBeads.has(activeBeadId)) {
-        this.countedBeads.add(activeBeadId)
-        this.addMerit(1)
-      }
-    }
+  // WXS回调：触摸结束重置
+  onTouchEndReset() {
+    this.addTimeout(() => {
+      this.initBeads()
+    }, 350)
   },
 
   // 显示功德飘字
@@ -232,24 +205,6 @@ Page({
       })
     }
     this.setData({ visibleBeads })
-  },
-
-  // 触摸结束 - 只做回弹动画
-  onTouchEnd() {
-    // 重置状态（为下次滑动准备）
-    this.lastBeadIndex = 0
-
-    // 启用过渡动画，平滑回到基准位置
-    this.setData({
-      useTransition: true,
-      translateY: 0
-    })
-
-    // 动画结束后禁用过渡，并重置珠子显示
-    this.addTimeout(() => {
-      this.setData({ useTransition: false })
-      this.initBeads() // 重置珠子到初始状态
-    }, 350)
   },
 
   // 增加功德

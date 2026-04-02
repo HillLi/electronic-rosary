@@ -1,9 +1,10 @@
 <!--pages/index/index.wxml - 禅意檀香主题-->
+<wxs module="touch" src="./index.wxs" />
 <view
   class="container"
-  bindtouchstart="onTouchStart"
-  bindtouchmove="onTouchMove"
-  bindtouchend="onTouchEnd"
+  bindtouchstart="{{touch.onTouchStart}}"
+  bindtouchmove="{{touch.onTouchMove}}"
+  bindtouchend="{{touch.onTouchEnd}}"
 >
   <!-- 背景图片 -->
   <image class="background-image" src="/assets/images/background-bead.png" mode="aspectFill" />
@@ -27,8 +28,7 @@
   <view class="beads-area">
     <view class="beads-container">
       <view
-        class="beads-wrapper {{useTransition ? 'with-transition' : ''}}"
-        style="transform: translateY({{translateY}}px);"
+        class="beads-wrapper"
       >
         <view
           wx:for="{{visibleBeads}}"

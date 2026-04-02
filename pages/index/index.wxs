@@ -1,0 +1,61 @@
+// WXS 运行在渲染线程，直接操作样式，无需跨线程通信
+var BEAD_HEIGHT = 48.5
+var startY = 0
+var lastBeadIndex = 0
+
+function onTouchStart(event, ownerComponent) {
+  if (!event.touches || event.touches.length === 0) return
+  startY = event.touches[0].clientY
+  lastBeadIndex = 0
+
+  var wrapper = ownerComponent.selectComponent('.beads-wrapper')
+  if (wrapper) {
+    wrapper.removeClass('with-transition')
+  }
+
+  ownerComponent.callMethod('onTouchStartReset')
+}
+
+function onTouchMove(event, ownerComponent) {
+  if (!event.touches || event.touches.length === 0) return
+
+  var currentY = event.touches[0].clientY
+  var totalDelta = currentY - startY
+  var boundedTranslateY = totalDelta % BEAD_HEIGHT
+
+  // 关键优化：直接在渲染线程设置样式，不走setData
+  var wrapper = ownerComponent.selectComponent('.beads-wrapper')
+  if (wrapper) {
+    wrapper.setStyle({
+      transform: 'translateY(' + boundedTranslateY + 'px)'
+    })
+  }
+
+  var newBeadIndex = Math.floor(totalDelta / BEAD_HEIGHT)
+  if (newBeadIndex !== lastBeadIndex) {
+    lastBeadIndex = newBeadIndex
+    ownerComponent.callMethod('onBeadChange', {
+      beadIndex: newBeadIndex
+    })
+  }
+}
+
+function onTouchEnd(event, ownerComponent) {
+  lastBeadIndex = 0
+
+  var wrapper = ownerComponent.selectComponent('.beads-wrapper')
+  if (wrapper) {
+    wrapper.addClass('with-transition')
+    wrapper.setStyle({
+      transform: 'translateY(0px)'
+    })
+  }
+
+  ownerComponent.callMethod('onTouchEndReset')
+}
+
+module.exports = {
+  onTouchStart: onTouchStart,
+  onTouchMove: onTouchMove,
+  onTouchEnd: onTouchEnd
+}
