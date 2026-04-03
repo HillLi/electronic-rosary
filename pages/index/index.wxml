@@ -61,6 +61,12 @@
   <!-- 右侧按钮区域 -->
   <view class="side-btns">
     <view class="side-btn-item">
+      <view class="side-btn leaderboard-btn" catchtap="goToLeaderboard">
+        <text class="side-btn-icon">🏆</text>
+      </view>
+      <text class="side-btn-label">排行</text>
+    </view>
+    <view class="side-btn-item">
       <view class="side-btn skin-btn" catchtap="openSkinPicker">
         <text class="side-btn-icon">🎨</text>
       </view>

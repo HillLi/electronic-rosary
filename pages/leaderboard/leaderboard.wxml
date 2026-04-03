@@ -1,0 +1,106 @@
+<!--pages/leaderboard/leaderboard.wxml-->
+<view class="container">
+  <!-- 背景图片 -->
+  <image class="background-image" src="/assets/images/background.png" mode="aspectFill" />
+
+  <!-- 顶部导航 -->
+  <view class="nav-bar" style="padding-top: {{statusBarHeight}}px;">
+    <view class="nav-back" bindtap="goBack">
+      <text class="nav-back-icon">‹</text>
+    </view>
+    <text class="nav-title">功德排行榜</text>
+    <view class="nav-placeholder"></view>
+  </view>
+
+  <!-- Tab 切换 -->
+  <view class="tab-bar">
+    <view
+      class="tab {{activeTab === 'woodfish' ? 'active' : ''}}"
+      data-tab="woodfish"
+      bindtap="onTabChange"
+    >
+      木鱼排行
+    </view>
+    <view
+      class="tab {{activeTab === 'rosary' ? 'active' : ''}}"
+      data-tab="rosary"
+      bindtap="onTabChange"
+    >
+      念珠排行
+    </view>
+  </view>
+
+  <!-- 加载中 -->
+  <view wx:if="{{loading}}" class="state-container">
+    <view class="loading-spinner"></view>
+    <text class="state-text">加载中...</text>
+  </view>
+
+  <!-- 错误状态 -->
+  <view wx:elif="{{error}}" class="state-container">
+    <text class="state-text">网络异常，请稍后重试</text>
+    <view class="retry-btn" bindtap="onRetry">重试</view>
+  </view>
+
+  <!-- 排行榜列表 -->
+  <view wx:else class="leaderboard-content">
+    <scroll-view class="rank-list" scrollY enhanced show-scrollbar="{{false}}">
+      <view wx:if="{{list.length === 0}}" class="state-container">
+        <text class="state-text">暂无数据</text>
+      </view>
+
+      <view
+        wx:for="{{list}}"
+        wx:key="rank"
+        class="rank-item {{item.rank <= 3 ? 'rank-top-' + item.rank : ''}}"
+      >
+        <!-- 排名 -->
+        <view class="rank-number">
+          <text wx:if="{{item.rank === 1}}" class="rank-medal">🥇</text>
+          <text wx:elif="{{item.rank === 2}}" class="rank-medal">🥈</text>
+          <text wx:elif="{{item.rank === 3}}" class="rank-medal">🥉</text>
+          <text wx:else class="rank-text">{{item.rank}}</text>
+        </view>
+
+        <!-- 头像 -->
+        <view class="rank-avatar">
+          <image
+            wx:if="{{item.avatarUrl}}"
+            class="avatar-img"
+            src="{{item.avatarUrl}}"
+            mode="aspectFill"
+          />
+          <view wx:else class="avatar-default">
+            <text class="avatar-icon">🧘</text>
+          </view>
+        </view>
+
+        <!-- 昵称 -->
+        <text class="rank-name">{{item.nickName}}</text>
+
+        <!-- 功德数 -->
+        <text class="rank-merit">{{item.merit}}</text>
+      </view>
+    </scroll-view>
+
+    <!-- 当前用户（固定底部） -->
+    <view wx:if="{{myRank > 0}}" class="my-rank-bar">
+      <view class="rank-number">
+        <text class="rank-text my">{{myRank}}</text>
+      </view>
+      <view class="rank-avatar">
+        <image
+          wx:if="{{myAvatarUrl}}"
+          class="avatar-img"
+          src="{{myAvatarUrl}}"
+          mode="aspectFill"
+        />
+        <view wx:else class="avatar-default">
+          <text class="avatar-icon">🧘</text>
+        </view>
+      </view>
+      <text class="rank-name my-name">{{myNickName}}（我）</text>
+      <text class="rank-merit my-merit">{{myMerit}}</text>
+    </view>
+  </view>
+</view>

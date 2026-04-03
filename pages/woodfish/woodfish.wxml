@@ -50,6 +50,12 @@
   <!-- 右侧按钮 -->
   <view class="side-btns">
     <view class="side-btn-item">
+      <view class="side-btn leaderboard-btn" catchtap="goToLeaderboard">
+        <text class="side-btn-icon">🏆</text>
+      </view>
+      <text class="side-btn-label">排行</text>
+    </view>
+    <view class="side-btn-item">
       <view class="side-btn auto-btn {{autoKnock ? 'active' : ''}}" catchtap="toggleAutoKnock">
         <text class="side-btn-icon">{{autoKnock ? '⏸' : '▶'}}</text>
       </view>

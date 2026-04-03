@@ -71,6 +71,14 @@ App({
 
     // 加载设置
     this.loadSettings()
+
+    // 云开发初始化
+    if (wx.cloud) {
+      wx.cloud.init({
+        env: 'your-env-id',
+        traceUser: true
+      })
+    }
   },
 
   loadSettings() {
@@ -97,5 +105,33 @@ App({
   getCurrentSkin() {
     const skinId = this.globalData.settings.beadSkin || 'sandalwood'
     return this.beadSkins.find(s => s.id === skinId) || this.beadSkins[0]
+  },
+
+  // 排行榜相关 - 防抖上报
+  uploadTimer: null,
+  isUploading: false,
+
+  debouncedUploadMerit() {
+    if (this.uploadTimer) clearTimeout(this.uploadTimer)
+    this.uploadTimer = setTimeout(() => {
+      this.flushMeritUpload()
+    }, 10000)
+  },
+
+  flushMeritUpload() {
+    if (this.isUploading) return
+    if (!wx.cloud) return
+
+    this.isUploading = true
+    const woodfishMerit = parseInt(wx.getStorageSync('merit_woodfish') || '0', 10)
+    const rosaryMerit = parseInt(wx.getStorageSync('merit') || '0', 10)
+
+    wx.cloud.callFunction({
+      name: 'uploadMerit',
+      data: { woodfishMerit, rosaryMerit },
+      complete: () => {
+        this.isUploading = false
+      }
+    })
   }
 })

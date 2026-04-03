@@ -1,5 +1,10 @@
 {
-  "pages": ["pages/woodfish/woodfish", "pages/index/index", "pages/settings/settings"],
+  "pages": [
+    "pages/woodfish/woodfish",
+    "pages/index/index",
+    "pages/settings/settings",
+    "pages/leaderboard/leaderboard"
+  ],
   "window": {
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#8B4513",

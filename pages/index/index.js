@@ -41,6 +41,10 @@ Page({
     this.loadSkinData()
   },
 
+  onHide() {
+    app.flushMeritUpload()
+  },
+
   onUnload() {
     // 清理所有定时器
     this.timeouts.forEach(id => clearTimeout(id))
@@ -219,6 +223,7 @@ Page({
     })
 
     this.saveMerit()
+    app.debouncedUploadMerit()
 
     // 显示飘字动画
     this.showMeritPopup(count)
@@ -233,6 +238,11 @@ Page({
     wx.navigateTo({
       url: '/pages/settings/settings'
     })
+  },
+
+  goToLeaderboard() {
+    app.flushMeritUpload()
+    wx.navigateTo({ url: '/pages/leaderboard/leaderboard' })
   },
 
   // 重置功德

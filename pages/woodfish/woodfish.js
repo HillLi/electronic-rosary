@@ -29,6 +29,7 @@ Page({
 
   onHide() {
     this.stopAutoKnock()
+    app.flushMeritUpload()
   },
 
   onUnload() {
@@ -106,6 +107,7 @@ Page({
 
     this.saveMerit()
     this.showMeritPopup(1)
+    app.debouncedUploadMerit()
 
     this.addTimeout(() => {
       this.setData({
@@ -129,6 +131,11 @@ Page({
   removeMeritPopup(popupId) {
     const popups = this.data.meritPopups.filter(p => p.id !== popupId)
     this.setData({ meritPopups: popups })
+  },
+
+  goToLeaderboard() {
+    app.flushMeritUpload()
+    wx.navigateTo({ url: '/pages/leaderboard/leaderboard' })
   },
 
   goToSettings() {
